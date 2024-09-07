@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Welcome to Our Invoice Service</title>
+
+    <!-- Link to Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #1e90ff;
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 5px 10px;
+            font-size: 16px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .welcome-message {
+            color: #1e90ff; /* Dodger blue */
+            font-size: 36px;
+            margin-top: 50px;
+            font-weight: bold;
+        }
+
+        .sub-message {
+            color: #4682b4; /* Steel blue */
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #1e90ff;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 40px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #4682b4;
+        }
+
+        /* Features Section */
+        .features-section {
+            background-color: #e6f7ff;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .features-title {
+            font-size: 28px;
+            color: #1e90ff;
+        }
+
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .feature-box {
+            text-align: center;
+            width: 200px;
+            margin: 15px;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: #1e90ff;
+        }
+
+        .feature-description {
+            font-size: 18px;
+            color: #4682b4;
+            margin-top: 15px;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: #ffffff;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .testimonials-title {
+            font-size: 28px;
+            color: #1e90ff;
+        }
+
+        .testimonial {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            display: inline-block;
+            width: calc(100% - 40px); /* Responsive width */
+            max-width: 300px;
+        }
+
+        .testimonial p {
+            font-size: 16px;
+            color: #4682b4;
+        }
+
+        .testimonial cite {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #1e90ff;
+        }
+
+        /* Contact Form Section */
+        .contact-section {
+            background-color: #e6f7ff;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: 28px;
+            color: #1e90ff;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box; /* Ensure padding does not affect width */
+        }
+
+        .contact-form textarea {
+            resize: vertical; /* Allows vertical resizing only */
+        }
+
+        .contact-form button {
+            background-color: #1e90ff;
+            border: none;
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%; /* Full-width button */
+            box-sizing: border-box; /* Ensure padding does not affect width */
+        }
+
+        .contact-form button:hover {
+            background-color: #4682b4;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #1e90ff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .features-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .testimonial {
+                width: calc(100% - 40px); /* Full width on small screens */
+            }
+
+            .contact-form button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-message {
+                font-size: 28px;
+            }
+
+            .sub-message {
+                font-size: 18px;
+            }
+
+            .button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .features-title,
+            .testimonials-title,
+            .contact-title {
+                font-size: 24px;
+            }
+
+            .feature-icon {
+                font-size: 30px;
+            }
+
+            .feature-description {
+                font-size: 16px;
+            }
+
+            .contact-form button {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <h1>Invoice Service</h1>
+        <div>
+            <a href="#features">Features</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#contact">Contact Us</a>
+        </div>
+    </div>
+
+    <!-- Welcome Section -->
+    <div class="container">
+        <h1 class="welcome-message">Welcome to Our Invoice Generating Service!</h1>
+        <p class="sub-message">Manage your invoices easily, quickly, and professionally with our platform.</p>
+        <a href="/dashboard" class="button">Get Started</a>
+    </div>
+
+    <!-- Features Section -->
+    <div id="features" class="features-section">
+        <h2 class="features-title">Why Choose Us?</h2>
+        <div class="features-container">
+            <div class="feature-box">
+                <i class="fas fa-file-invoice feature-icon"></i>
+                <p class="feature-description">Generate Invoices in Seconds</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-chart-line feature-icon"></i>
+                <p class="feature-description">Track Your Financials</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-lock feature-icon"></i>
+                <p class="feature-description">Secure and Reliable</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div id="testimonials" class="testimonials-section">
+        <h2 class="testimonials-title">What Our Users Say</h2>
+        <div class="testimonial">
+            <p>"The invoice service has made managing our finances so much easier. The platform is user-friendly and efficient."</p>
+            <cite>- Alex J.</cite>
+        </div>
+        <div class="testimonial">
+            <p>"I love the simple design and the powerful features. It's perfect for our small business."</p>
+            <cite>- Maria S.</cite>
+        </div>
+        <div class="testimonial">
+            <p>"A reliable tool that saves us time and keeps our invoicing process smooth. Highly recommended!"</p>
+            <cite>- David W.</cite>
+        </div>
+    </div>
+
+    <!-- Contact Form Section -->
+    <div id="contact" class="contact-section">
+        <h2 class="contact-title">Get in Touch</h2>
+        <form class="contact-form">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2024 Invoice Service. All rights reserved.</p>
+        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Contact Us</a>
+    </div>
+
+</body>
+</html>
