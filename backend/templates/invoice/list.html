@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Invoices</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Owner</th>
+        <th>Unique Code</th>
+        <th>Items</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for invoice in invoices %}
+        <tr>
+          <td>{{ invoice.id }}</td>
+          <td>{{ invoice.owner.username }}</td>
+          <td>{{ invoice.unique_code }}</td>
+          <td>
+            <ul>
+              {% for item in invoice.items.all %}
+                <li>{{ item.title }} ({{ item.quantity }} x {{ item.price }})</li>
+              {% endfor %}
+            </ul>
+          </td>
+          <td>
+            <a href="{% url 'invoice_update' invoice.id %}">Edit</a> |
+            <a href="{% url 'invoice_detail' invoice.id %}">View</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'invoice_create' %}">Create New Invoice</a>
+{% endblock %}
