@@ -1,3 +1,5 @@
+{% load humanize %}
+{% load jformat %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -42,11 +44,11 @@
             <!-- Invoice Info -->
             <div class="row">
                 <div class="col-sm-6">
-                    <h5>شماره فاکتور: {{invoice.owner.id}}-{{ invoice.unique_code }}</h5>
-                    <p>تاریخ: {{ invoice.created_at }}</p>
+                    <h5>شناسه فاکتور: {{invoice.owner.id}}-{{ invoice.unique_code }}</h5>
+                    <p>تاریخ: {{ invoice.created_at |jformat:"%d-%m-%Y" }}</p>
                 </div>
                 <div class="col-sm-6 text-sm-start">
-                    <h5>تاریخ سررسید: {{ invoice.payment_deadline }}</h5>
+                    <h5>تاریخ سررسید: {{ invoice.payment_deadline | jformat:"%d-%m-%Y" }}</h5>
                 </div>
             </div>
             <!-- Table for Items -->
@@ -61,13 +63,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{% for item in invoice.items.all %}}
+                    {% for item in invoice.items.all %}
                     <tr>
-                        <td>۱</td>
-                        <td>محصول ۱</td>
-                        <td>۲</td>
-                        <td>۵۰ دلار</td>
-                        <td>۱۰۰ دلار</td>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.quantity | intcomma:False }}</td>
+                        <td>{{ item.price | intcomma:False }}</td>
+                        <td>{{ item.total | intcomma:False }}</td>
                     </tr>
 
                     {% endfor %}
@@ -93,7 +95,7 @@
             </div>
         </div>
         <div class="card-footer text-center">
-            <p>با تشکر از خرید شما!</p>
+            <p>تولید شده توسط سرویس حاسب - myhaseb.ir</p>
         </div>
     </div>
 </div>
