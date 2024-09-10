@@ -8,6 +8,6 @@ class User(AbstractUser):
     company = models.CharField(max_length=255, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
 
-
+    tax_rate = models.SmallIntegerField(default=10)
 
 

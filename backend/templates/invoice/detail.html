@@ -1,7 +1,12 @@
 {% load humanize %}
 {% load jformat %}
 <!DOCTYPE html>
+{% if invoice.language == 'fa' %}
 <html lang="fa" dir="rtl">
+
+{% else %}
+<html lang="en-us" dir="ltr">
+{% endif %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +15,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
 </head>
 <body>
+
+{% if invoice.language == 'fa' %}
+
+<style>
+    @font-face {
+        font-family: 'Arad';
+        src: url('/static/fonts/Arad/AradFD-RegularDots1.woff2');
+    }
+    .container {
+        font-family: 'Arad';
+    }
+</style>
 
 <div class="container mt-5">
     <div class="card">
@@ -20,7 +37,7 @@
             <!-- Company Information -->
             <div class="row">
                 <div class="col-sm-6">
-                    <h4>مشخصات فروشنده:</h4>
+                    <h4 style="font-family: 'Arad';">مشخصات فروشنده:</h4>
                     <p>
                         
                         {{invoice.owner.company}}<br>
@@ -78,27 +95,131 @@
                 <tfoot>
                     <tr>
                         <th colspan="4" class="text-end">جمع کل</th>
-                        <th>۲۵۰ دلار</th>
+                        <th>{{total_invoice_price | intcomma:False }} ریال</th>
                     </tr>
                     <tr>
-                        <th colspan="4" class="text-end">مالیات (۱۰٪)</th>
-                        <th>۲۵ دلار</th>
+                        <th colspan="4" class="text-end">مالیات</th>
+                        <th>{{ tax_fee | intcomma:False }} ریال</th>
                     </tr>
                     <tr>
                         <th colspan="4" class="text-end">مجموع نهایی</th>
-                        <th>۲۷۵ دلار</th>
+                        <th>{{ total_with_tax | intcomma:False }} ریال</th>
                     </tr>
                 </tfoot>
             </table>
             <div class="text-end mt-3">
-                <p><strong>مبلغ قابل پرداخت: ۲۷۵ دلار</strong></p>
+                <p><strong>مبلغ قابل پرداخت: {{total_with_tax | intcomma:False}} ریال</strong></p>
             </div>
         </div>
         <div class="card-footer text-center">
-            <p>تولید شده توسط سرویس حاسب - myhaseb.ir</p>
+            <p>تولید شده توسط سرویس حاسب - MyHaseb.ir</p>
         </div>
     </div>
 </div>
+{% elif invoice.language == 'en' %}
+
+
+<style>
+    @font-face {
+        font-family: 'Arad';
+        src: url('/static/fonts/Arad/Arad-RegularDots1.woff2');
+    }
+    .container {
+        font-family: 'Arad';
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header text-center">
+            <h2>Invoice</h2>
+        </div>
+        <div class="card-body">
+            <!-- Company Information -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 style="font-family: 'Arad';">Information:</h4>
+                    <p>
+                        
+                        {{invoice.owner.company}}<br>
+                        {{ invoice.owner.address }}<br>
+                        Phone: {{ invoice.owner.phone }}<br>
+                        Email: {{ invoice.owner.email }}
+                    </p>
+                </div>
+                <div class="col-sm-6 text-sm-start">
+                    <h4>Customer:</h4>
+                    <p>
+                        {{ invoice.customer.name }} <br>
+                        {{ invoice.customer.address }}<br>
+                        Phone: {{ invoice.customer.phone }}<br>
+                         {{ invoice.customer.email }} <br>
+                        
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <!-- Invoice Info -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Invoice ID: {{invoice.owner.id}}-{{ invoice.unique_code }}</h5>
+                    <p>Date: {{ invoice.created_at |jformat:"%d-%m-%Y" }}</p>
+                </div>
+                <div class="col-sm-6 text-sm-start">
+                    <h5>Payment Deadline: {{ invoice.payment_deadline | jformat:"%d-%m-%Y" }}</h5>
+                </div>
+            </div>
+            <!-- Table for Items -->
+            <table class="table table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in invoice.items.all %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.quantity | intcomma:False }}</td>
+                        <td>{{ item.price | intcomma:False }}</td>
+                        <td>{{ item.total | intcomma:False }}</td>
+                    </tr>
+
+                    {% endfor %}
+                    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="4" class="text-end">Total</th>
+                        <th>{{invoice.currency}} {{total_invoice_price | intcomma:False }}</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" class="text-end">Tax</th>
+                        <th>{{invoice.currency}} {{ tax_fee | intcomma:False }}</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" class="text-end">Total Items Cost</th>
+                        <th>{{ invoice.currency }} {{ total_with_tax | intcomma:False }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="text-end mt-3">
+                <p><strong>Final Invoice Cost: {{ invoice.currency }} {{total_with_tax | intcomma:False}} </strong></p>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <p>Generated With - MyHaseb.ir</p>
+        </div>
+    </div>
+</div>
+
+
+{% endif %}
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
