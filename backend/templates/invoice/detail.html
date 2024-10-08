@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 {% if invoice.language == 'fa' %}
 <html lang="fa" dir="rtl">
-
 {% else %}
 <html lang="en-us" dir="ltr">
 {% endif %}
@@ -13,20 +12,64 @@
     <title>فاکتور</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <style>
+        /* Optimized for A5 portrait paper size */
+        @page {
+            size: A5 portrait;
+            margin: 10mm;
+        }
+
+        /* Font improvements */
+        @font-face {
+            font-family: 'Arad';
+            src: url('/static/fonts/Arad/AradFD-RegularDots1.woff2');
+        }
+
+        .container {
+            font-family: 'Roboto', sans-serif; /* for English */
+            font-family: 'IranSans', sans-serif; /* for Persian */
+        }
+
+        h2, h4 {
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 1.8em;
+        }
+
+        h4 {
+            font-size: 1.4em;
+        }
+
+        p {
+            font-size: 1.1em;
+        }
+
+        /* Table styling */
+        table th, table td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        /* General card styling */
+        .card {
+            border-radius: 10px;
+            margin: 10px;
+        }
+
+        /* Responsive adjustments */
+        @media print {
+            .card {
+                box-shadow: none;
+                border: 1px solid #000;
+            }
+        }
+    </style>
 </head>
 <body>
 
 {% if invoice.language == 'fa' %}
-
-<style>
-    @font-face {
-        font-family: 'Arad';
-        src: url('/static/fonts/Arad/AradFD-RegularDots1.woff2');
-    }
-    .container {
-        font-family: 'Arad';
-    }
-</style>
 
 <div class="container mt-5">
     <div class="card">
@@ -34,12 +77,11 @@
             <h2>فاکتور</h2>
         </div>
         <div class="card-body">
-            <!-- Company Information -->
+            <!-- Company and Customer Information -->
             <div class="row">
                 <div class="col-sm-6">
-                    <h4 style="font-family: 'Arad';">مشخصات فروشنده:</h4>
+                    <h4>مشخصات فروشنده:</h4>
                     <p>
-                        
                         {{invoice.owner.company}}<br>
                         {{ invoice.owner.address }}<br>
                         تلفن: {{ invoice.owner.phone }}<br>
@@ -49,11 +91,10 @@
                 <div class="col-sm-6 text-sm-start">
                     <h4>مشتری:</h4>
                     <p>
-                        {{ invoice.customer.name }} <br>
+                        {{ invoice.customer.name }}<br>
                         {{ invoice.customer.address }}<br>
                         تلفن: {{ invoice.customer.phone }}<br>
-                         {{ invoice.customer.email }} <br>
-                        
+                        {{ invoice.customer.email }}
                     </p>
                 </div>
             </div>
@@ -61,15 +102,15 @@
             <!-- Invoice Info -->
             <div class="row">
                 <div class="col-sm-6">
-                    <h5>شناسه فاکتور: {{invoice.owner.id}}-{{ invoice.unique_code }}</h5>
+                    <p>شناسه فاکتور: {{invoice.owner.id}}-{{ invoice.unique_code }}</p>
                     <p>تاریخ: {{ invoice.created_at |jformat:"%d-%m-%Y" }}</p>
                 </div>
                 <div class="col-sm-6 text-sm-start">
-                    <h5>تاریخ سررسید: {{ invoice.payment_deadline | jformat:"%d-%m-%Y" }}</h5>
+                    <p>تاریخ سررسید: {{ invoice.payment_deadline | jformat:"%d-%m-%Y" }}</p>
                 </div>
             </div>
             <!-- Table for Items -->
-            <table class="table table-bordered mt-4">
+            <table class="table table-bordered table-striped mt-4">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -88,14 +129,12 @@
                         <td>{{ item.price | intcomma:False }}</td>
                         <td>{{ item.total | intcomma:False }}</td>
                     </tr>
-
                     {% endfor %}
-                    
                 </tbody>
                 <tfoot>
                     <tr>
                         <th colspan="4" class="text-end">جمع کل</th>
-                        <th>{{total_invoice_price | intcomma:False }} ریال</th>
+                        <th>{{ total_invoice_price | intcomma:False }} ریال</th>
                     </tr>
                     <tr>
                         <th colspan="4" class="text-end">مالیات</th>
@@ -108,26 +147,13 @@
                 </tfoot>
             </table>
             <div class="text-end mt-3">
-                <p><strong>مبلغ قابل پرداخت: {{total_with_tax | intcomma:False}} ریال</strong></p>
+                <p><strong>مبلغ قابل پرداخت: {{ total_with_tax | intcomma:False }} ریال</strong></p>
             </div>
-        </div>
-        <div class="card-footer text-center">
-            <p>تولید شده توسط سرویس حاسب - MyHaseb.ir</p>
         </div>
     </div>
 </div>
+
 {% elif invoice.language == 'en' %}
-
-
-<style>
-    @font-face {
-        font-family: 'Arad';
-        src: url('/static/fonts/Arad/Arad-RegularDots1.woff2');
-    }
-    .container {
-        font-family: 'Arad';
-    }
-</style>
 
 <div class="container mt-5">
     <div class="card">
@@ -135,12 +161,11 @@
             <h2>Invoice</h2>
         </div>
         <div class="card-body">
-            <!-- Company Information -->
+            <!-- Company and Customer Information -->
             <div class="row">
                 <div class="col-sm-6">
-                    <h4 style="font-family: 'Arad';">Information:</h4>
+                    <h4>Seller:</h4>
                     <p>
-                        
                         {{invoice.owner.company}}<br>
                         {{ invoice.owner.address }}<br>
                         Phone: {{ invoice.owner.phone }}<br>
@@ -150,11 +175,10 @@
                 <div class="col-sm-6 text-sm-start">
                     <h4>Customer:</h4>
                     <p>
-                        {{ invoice.customer.name }} <br>
+                        {{ invoice.customer.name }}<br>
                         {{ invoice.customer.address }}<br>
                         Phone: {{ invoice.customer.phone }}<br>
-                         {{ invoice.customer.email }} <br>
-                        
+                        {{ invoice.customer.email }}
                     </p>
                 </div>
             </div>
@@ -162,21 +186,21 @@
             <!-- Invoice Info -->
             <div class="row">
                 <div class="col-sm-6">
-                    <h5>Invoice ID: {{invoice.owner.id}}-{{ invoice.unique_code }}</h5>
+                    <p>Invoice ID: {{invoice.owner.id}}-{{ invoice.unique_code }}</p>
                     <p>Date: {{ invoice.created_at |jformat:"%d-%m-%Y" }}</p>
                 </div>
                 <div class="col-sm-6 text-sm-start">
-                    <h5>Payment Deadline: {{ invoice.payment_deadline | jformat:"%d-%m-%Y" }}</h5>
+                    <p>Payment Deadline: {{ invoice.payment_deadline | jformat:"%d-%m-%Y" }}</p>
                 </div>
             </div>
             <!-- Table for Items -->
-            <table class="table table-bordered mt-4">
+            <table class="table table-bordered table-striped mt-4">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Title</th>
+                        <th>Description</th>
                         <th>Quantity</th>
-                        <th>Price</th>
+                        <th>Unit Price</th>
                         <th>Total</th>
                     </tr>
                 </thead>
@@ -189,39 +213,30 @@
                         <td>{{ item.price | intcomma:False }}</td>
                         <td>{{ item.total | intcomma:False }}</td>
                     </tr>
-
                     {% endfor %}
-                    
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="4" class="text-end">Total</th>
-                        <th>{{invoice.currency}} {{total_invoice_price | intcomma:False }}</th>
+                        <th colspan="4" class="text-end">Subtotal</th>
+                        <th>{{ total_invoice_price | intcomma:False }} {{ invoice.currency }}</th>
                     </tr>
                     <tr>
                         <th colspan="4" class="text-end">Tax</th>
-                        <th>{{invoice.currency}} {{ tax_fee | intcomma:False }}</th>
+                        <th>{{ tax_fee | intcomma:False }} {{ invoice.currency }}</th>
                     </tr>
                     <tr>
-                        <th colspan="4" class="text-end">Total Items Cost</th>
-                        <th>{{ invoice.currency }} {{ total_with_tax | intcomma:False }}</th>
+                        <th colspan="4" class="text-end">Total</th>
+                        <th>{{ total_with_tax | intcomma:False }} {{ invoice.currency }}</th>
                     </tr>
                 </tfoot>
             </table>
             <div class="text-end mt-3">
-                <p><strong>Final Invoice Cost: {{ invoice.currency }} {{total_with_tax | intcomma:False}} </strong></p>
+                <p><strong>Total Payable: {{ total_with_tax | intcomma:False }} {{ invoice.currency }}</strong></p>
             </div>
-        </div>
-        <div class="card-footer text-center">
-            <p>Generated With - MyHaseb.ir</p>
         </div>
     </div>
 </div>
 
-
 {% endif %}
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
