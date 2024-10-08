@@ -10,4 +10,4 @@ class User(AbstractUser):
 
     tax_rate = models.SmallIntegerField(default=10)
 
-
+    sign_image = models.ImageField(upload_to='user-signs/', blank=True, null=True)
