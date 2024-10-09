@@ -1,37 +1,50 @@
 {% extends "base.html" %}
-
+{% load humanize %}
 {% block content %}
-  <h2>Invoices</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Owner</th>
-        <th>Unique Code</th>
-        <th>Items</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
+
+  <div class="container my-5">
+    <h2 class="text-center mb-4">Invoices</h2>
+
+    <div class="d-flex justify-content-end mb-3">
+      <a href="{% url 'invoice:create' %}" class="btn btn-primary btn-lg">Create New Invoice</a>
+    </div>
+
+    <div class="row">
       {% for invoice in invoices %}
-        <tr>
-          <td>{{ invoice.id }}</td>
-          <td>{{ invoice.owner.username }}</td>
-          <td>{{ invoice.unique_code }}</td>
-          <td>
-            <ul>
-              {% for item in invoice.items.all %}
-                <li>{{ item.title }} ({{ item.quantity }} x {{ item.price }})</li>
-              {% endfor %}
-            </ul>
-          </td>
-          <td>
-            <a href="{% url 'invoice_update' invoice.id %}">Edit</a> |
-            <a href="{% url 'invoice_detail' invoice.id %}">View</a>
-          </td>
-        </tr>
+      <style>
+        /* Font improvements */
+        @font-face {
+            font-family: 'Arad';
+            src: url('/static/fonts/Arad/AradFD-RegularDots1.woff2');
+        }
+        </style>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card border-dark h-100 d-flex flex-column">
+            <div class="card-body flex-grow-1">
+              <h5 class="card-title font-weight-bold">Invoice ID: {{ invoice.id }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Owner: {{ invoice.owner.username }}</h6>
+              <p><strong>Unique Code:</strong> {{ invoice.unique_code }}</p>
+
+              <h6>Items:</h6>
+              <ul class="list-unstyled mb-3">
+                {% for item in invoice.items.all %}
+                  <li style="{% if invoice.language == 'fa' %} font-family: 'Arad'; direction: rtl; {% else %} font-family: 'Roboto'; direction: ltr; {% endif %}">{{ item.title | truncatewords:2 }}: ({{ item.quantity }} * {{ item.price | intcomma:False }})</li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+              <a href="{% url 'invoice:update' invoice.unique_code %}" class="btn btn-outline-warning btn-lg">
+                Edit
+              </a>
+              <a href="{% url 'invoice:detail' invoice.unique_code %}" class="btn btn-outline-info btn-lg">
+                View
+              </a>
+            </div>
+          </div>
+        </div>
       {% endfor %}
-    </tbody>
-  </table>
-  <a href="{% url 'invoice_create' %}">Create New Invoice</a>
+    </div>
+
+  </div>
 {% endblock %}

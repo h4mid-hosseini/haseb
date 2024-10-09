@@ -1,14 +1,20 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from . import models, forms
 
 
-
+@login_required
 def invoice_list(request):
-    invoices = models.Invoice.objects.all()
+    if request.user.is_superuser:
+        invoices = models.Invoice.objects.all()
+    else:
+        invoices = models.Invoice.objects.filter(owner=request.user)
+
     return render(request, 'invoice/list.html', {'invoices': invoices})
 
 
 
+@login_required
 def invoice_create(request):
     if request.method == 'POST':
         form = forms.InvoiceForm(request.POST)
@@ -21,6 +27,7 @@ def invoice_create(request):
 
 
 
+@login_required
 def invoice_update(request, pk):
     invoice = get_object_or_404(models.Invoice, pk=pk)
     if request.method == 'POST':
