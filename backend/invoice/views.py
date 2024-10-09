@@ -34,8 +34,8 @@ def invoice_update(request, pk):
 
 
 
-def invoice_detail(request, pk):
-    invoice = get_object_or_404(models.Invoice, pk=pk)
+def invoice_detail(request, invoice_code):
+    invoice = get_object_or_404(models.Invoice, unique_code=invoice_code)
     tax_rate = invoice.owner.tax_rate
     total_invoice_price = int(sum([item.total() for item in invoice.items.all()]))
     print(total_invoice_price)
