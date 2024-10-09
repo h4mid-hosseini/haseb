@@ -110,6 +110,16 @@
             <div class="text-end mt-3">
                 <p><strong>مبلغ قابل پرداخت: {{total_with_tax | intcomma:False}} ریال</strong></p>
             </div>
+            <div class="row">
+                <div class="col-sm-2"> </div>
+                <div class="col-sm-4">
+                    <p>{% if invoice.owner.sign_image %} <img src="{{ invoice.owner.sign_image.url }}" style="max-height: 150px;"> {% endif %}<br> امضا فروشنده</p>
+                </div>
+                <div class="col-sm-2"> </div>
+                <div class="col-sm-4">
+                    <p>امضا مشتری</p>
+                </div>
+            </div>
         </div>
         <div class="card-footer text-center">
             <p>تولید شده توسط سرویس حاسب - MyHaseb.ir</p>

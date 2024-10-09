@@ -37,7 +37,8 @@ def invoice_update(request, pk):
 def invoice_detail(request, pk):
     invoice = get_object_or_404(models.Invoice, pk=pk)
     tax_rate = invoice.owner.tax_rate
-    total_invoice_price = int(sum([item.price for item in invoice.items.all()]))
+    total_invoice_price = int(sum([item.total() for item in invoice.items.all()]))
+    print(total_invoice_price)
     tax_fee = int(total_invoice_price * (tax_rate / 100))
     total_with_tax = int(total_invoice_price + total_invoice_price * (tax_rate / 100))
 

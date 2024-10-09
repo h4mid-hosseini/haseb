@@ -1,5 +1,9 @@
 asgiref==3.8.1
 backports.zoneinfo==0.2.1
 Django==4.2.16
+django-jalali==7.1.0
+jalali-core==1.0.0
+jdatetime==5.0.0
+pillow==10.4.0
 sqlparse==0.5.1
 typing-extensions==4.12.2
